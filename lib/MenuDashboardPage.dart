@@ -3,21 +3,13 @@ import 'package:flutter/material.dart';
 
 
 final Color backgroundColor = Colors.white;
-
+var assetImage = AssetImage('assets/images/snow.jpg');
+var image = Image(image: assetImage);
 class MenuDashboardPage extends StatefulWidget {
   @override
   _MenuDashboardPageState createState() => _MenuDashboardPageState();
 }
 
-class MyImage extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    AssetImage assetImage = AssetImage('images/me.jpg');
-    Image image = Image(image: assetImage);
-    return image;
-  }
-}
 class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTickerProviderStateMixin {
 
   bool isCollapsed = true;
@@ -27,7 +19,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
   Animation<double> _scaleAnimation;
   Animation<double> _menuscaleAnimation;
   Animation<Offset> _slideAnimation;
-
+  //Animation<Offset> _imageslideAnimation;
 
   void initState(){
     super.initState();
@@ -35,6 +27,8 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
     _scaleAnimation = Tween<double>(begin:1,end:0.6).animate(_controller);
     _menuscaleAnimation = Tween<double>(begin:0.5,end:1).animate(_controller);
     _slideAnimation = Tween<Offset>(begin: Offset(-1,0),end: Offset(0,0)).animate(_controller);
+    //_imageslideAnimation = Tween<Offset>(begin: Offset(-1,0),end: Offset(0,0)).animate(_controller);
+
   }
 
   void dispose(){
@@ -66,15 +60,35 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
       child: ScaleTransition(
         scale: _menuscaleAnimation ,
         child: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
+          padding: const EdgeInsets.only(left: 16.0,top: 26.0),
           child: Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.topLeft,
             child: Column(
+
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
 
+                Container(
+                  padding: const EdgeInsets.only(left:80),
+                  height: 150,
+                  width: 150,
+
+                  decoration: BoxDecoration(
+                      image: DecorationImage(image: AssetImage('assets/images/snow.jpg'),
+                      fit: BoxFit.cover),
+                      shape: BoxShape.circle,
+
+                          ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 10,left: 10),
+                  child: Text("Prayant Gupta",style: TextStyle(color: Colors.black,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 20),
+                  ),
+                ),
                 Divider(
                   height: 64,
                   thickness: 1,
@@ -115,37 +129,51 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
         scale: _scaleAnimation,
         child: Material(
           borderRadius:  isCollapsed ? null :BorderRadius.all(Radius.circular(50)),
-          elevation: 16.0,
-          color: Colors.black,
+          shadowColor: Colors.blueAccent, 
+          elevation: 10.0,
           child:Container(
-            padding: const EdgeInsets.only(left:16,right:16,top:48),
+            padding: const EdgeInsets.only(left:1,right:1,top:48),
+            decoration: BoxDecoration(
+                borderRadius:  isCollapsed ? null :BorderRadius.all(Radius.circular(50)),
+                image: DecorationImage(
+                image: AssetImage('assets/images/snow.jpg',),
+               
+               fit: BoxFit.cover,
+                
+              )
+            ),
+
             child:Column(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children:<Widget>[
-                    InkWell(
-                        child: Icon(Icons.menu, color: Colors.white),
-                        onTap:(){
-                          setState((){
-                            if(isCollapsed)
-                              _controller.forward();
-                            else
-                              _controller.reverse();
-                            isCollapsed = !isCollapsed;
+                Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children:<Widget>[
+                      InkWell(
+                          child:  Icon( isCollapsed ?Icons.menu : Icons.arrow_back_ios, color: Colors.white)  ,
+                          onTap:(){
+                            setState((){
+                              if(isCollapsed)
+                                _controller.forward();
+                              else
+                                _controller.reverse();
+                              isCollapsed = !isCollapsed;
+                            }
+                            );
                           }
-                          );
-                        }
-                    ),
-                    //SizedBox(width: 80,),
-                    Container(
-                      padding: const EdgeInsets.only(left:110 ),
-                      child: Text("MY RESUME", style: TextStyle(fontSize: 24, color: Colors.white,fontWeight: FontWeight.w900,),
                       ),
-                    ),
+                      //SizedBox(width: 80,),
+                      Container(
+                        padding: const EdgeInsets.only(left:60 ),
+                        child: Text("My Resume", style: TextStyle(fontSize: 24, color: Colors.white,fontWeight: FontWeight.w900,),
+                        ),
+                      ),
 
-                  ],
+                    ],
+                  ),
                 ),
+
                 SizedBox(height: screenHeight/30),
                 Container(
 
@@ -156,17 +184,17 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
                     //pageSnapping: true,
                     children: <Widget>[
                       Container(
-                        decoration : BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(35)),color:Colors.blueAccent,
+                        decoration : BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(35)),color:Colors.white,
                         ),
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(horizontal: 8),
-                        //color: Colors.yellow,
                         child: Column(
                           children: <Widget>[
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Icon(Icons.person,size: 25),
+                                Icon(Icons.person_outline,size: 25),
                                   Text(" About Me",style: TextStyle(fontSize: 20,fontWeight:FontWeight.w900),)
                               ],
                             ),
@@ -177,7 +205,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
                         ),
 
                       Container(
-                        decoration : BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(50)),color:Colors.yellowAccent,
+                        decoration : BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(50)),color:Colors.white,
                         ),
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -185,11 +213,12 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
                         child: Column(
                           children: <Widget>[
                             Row(
+                              mainAxisSize: MainAxisSize.min,
 
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Icon(Icons.person,size: 25),
-                                Text(" About Me",style: TextStyle(fontSize: 20,fontWeight:FontWeight.w900),)
+                                Icon(Icons.school,size: 25),
+                                Text(" Education",style: TextStyle(fontSize: 20,fontWeight:FontWeight.w900),)
                               ],
                             ),
 
@@ -198,7 +227,7 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
                         ),
                       ),//2
                       Container(
-                        decoration : BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(50)),color:Colors.greenAccent,
+                        decoration : BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(50)),color:Colors.white,
                         ),
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -207,9 +236,10 @@ class _MenuDashboardPageState extends State<MenuDashboardPage> with SingleTicker
                           children: <Widget>[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Icon(Icons.person,size: 25),
-                                Text(" About Me",style: TextStyle(fontSize: 20,fontWeight:FontWeight.w900),)
+                                Icon(Icons.person_pin,size: 25),
+                                Text(" Positions",style: TextStyle(fontSize: 20,fontWeight:FontWeight.w900),)
                               ],
                             ),
 
